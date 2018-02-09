@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>How to use character_count.js</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <!-- Associated reading: https://github.com/jasonday/announceThis https://dequeuniversity.com/library/aria/counters/sf-characters-remaining -->
+    <div class="container">
+
+      <h1>The Accessible Character Counter</h1>
+      <p>The Accessible Character Counter jQuery plugin will add an SMS-style character counter to the elements it's attached to. The character counter is <abbr title="Web Content Accessibility Guidelines">WCAG</abbr>2.0-compliant and contains <abbr title="Web Accessibility Initiative-Accessible Rich Internet Applications">WAI-ARIA</abbr> attributes to assist users with screenreaders. It can also be internationalized and ships with default text in English and French.</p>
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#examples" aria-controls="examples" role="tab" data-toggle="tab" id="exampletab">Examples</a></li>
+        <li role="presentation"><a href="#configuration" aria-controls="configuration" role="tab" data-toggle="tab" id="configurationtab">Configuration</a></li>
+        <li role="presentation"><a href="#alt" aria-controls="intro" role="tab" data-toggle="tab" id="alternatab">Alternatives</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="examples" aria-labelledby="exampletab">
+          <h2>Examples</h2>
+
+          <h3>Basic case</h3>
+          <p>To use the plugin, apply it to an existing <code>&lt;textarea&gt;</code> or <code>&lt;input type="text"&gt;</code> element. The default length is 160 characters. <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions" title="Explanation of ARIA live regions">ARIA live</a> notifications for screenreaders begin at "polite" when there are 50 characters remaining, and escalate to "assertive" with 20 characters remaining.</p>
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Example</h4>
+              <label for="basic-demo">Basic demo</label><br>
+              <textarea id="basic-demo" rows="5" cols="45"></textarea>
+            </div><!-- .col-md-8 -->
+            <div class="col-md-8">
+              <div>
+                <h4>HTML</h4>
+                <pre>
+&lt;label for="basic-demo"&gt;Basic demo&lt;/label&gt;&lt;br&gt;
+&lt;textarea id="basic-demo" rows="5" cols="45"&gt;&lt;/textarea&gt;</pre>
+              </div>
+              <div>
+                <h4>Javascript</h4>
+                <pre>
+$( function(){
+  $( "#basic-demo" ).accessibleCharCount()
+})</pre>
+              </div>
+            </div><!-- .col-md-8 -->
+        </div><!-- .row -->
+
+        <h3>Input field with maxlength</h3>
+        <p>If the element already has a maxlength, the plugin won't override it.</p>
+        <div class="row">
+          <div class="col-md-4">
+            <h4>Example</h4>
+            <label for="input-field-demo">Input field demo</label><br>
+            <input id="input-field-demo" maxlength="100">
+          </div><!-- .col-md-4 -->
+          <div class="col-md-8">
+            <div>
+              <h4>HTML</h4>
+              <pre>
+&lt;label for="input-field-demo"&gt;Input field demo&lt;/label&gt;&lt;br&gt;
+&lt;input id="input-field-demo" maxlength="100"&gt;</pre>
+            </div>
+            <div>
+                <h4>Javascript</h4>
+                <pre>
+$( function(){
+  $( "#input-field-demo" ).accessibleCharCount()
+})</pre>
+              </div>
+            </div><!-- .col-md-8 -->
+        </div><!-- .row -->
+
+        <h3>Properties</h3>
+        <p>In this demo, we demonstrate how you can override the default properties. (The buttons below change the "lang" attribute of the document for demonstration purposes.)</p>
+        <div class="row">
+          <div class="col-md-4">
+            <h4>Example</h4>
+            <p>Set page language:</p>
+            <div class="btn-group" role="group" aria-label="Set page language">
+              <button type="button" class="btn btn-default"
+              onclick="document.documentElement.setAttribute( 'lang', 'en' )"
+              >English</button>
+              <button type="button" class="btn btn-default"
+              onclick="document.documentElement.setAttribute( 'lang', 'fr' )"
+              >French</button>
+              <button type="button" class="btn btn-default"
+              onclick="document.documentElement.setAttribute( 'lang', 'ru' )"
+              >Russian</button>
+              <button type="button" class="btn btn-default"
+              onclick="document.documentElement.setAttribute( 'lang', '' )"
+              >Null</button>
+            </div>
+            <label for="properties-demo">Properties demo</label><br>
+            <textarea id="properties-demo" rows="5" cols="45"></textarea>
+          </div><!-- .col-md-4 -->
+          <div class="col-md-8">
+          <div>
+            <h4>HTML</h4>
+            <pre>
+&lt;label for="properties-demo"&gt;Properties demo&lt;/label&gt;&lt;br&gt;
+&lt;textarea id="properties-demo" rows="5" cols="45"&gt;&lt;/textarea&gt;</pre>
+          </div>
+          <div>
+            <h4>Javascript</h4>
+            <pre>
+$( function(){
+  $( "#properties-demo" ).accessibleCharCount({
+    maxLength: 30,
+    triggerPolite: 10,
+    triggerAssertive: 5,
+    everyNth: 0,
+    beforeNumberElem: {
+      html: { 'en': 'You have '
+            , 'ru': 'Осталось '
+            }
+    },
+    afterNumberElem: {
+      html: { 'ru': [ ' символов'
+                    , ' символ'
+                    , ' символа'
+                    , ' символа'
+                    , ' символа'
+                    , ' символов'
+                    ]
+            }
+    }
+  })
+})</pre>
+            </div>
+          </div><!-- .col-md-8 -->
+        </div><!-- .row -->
+
+        <h3>Custom callback functions</h3>
+        <div class="row">
+          <div class="col-md-4">
+            <h4>Example</h4>
+            <label for="custom-callback-demo">Custom callback demo</label><br>
+            <textarea id="custom-callback-demo" rows="5" cols="45"></textarea>
+          </div><!-- .col-md-4 -->
+          <div class="col-md-8">
+            <div>
+              <h4>HTML</h4>
+              <pre>
+&lt;label for="custom-callback-demo"&gt;Custom callback demo&lt;/label&gt;&lt;br&gt;
+&lt;textarea id="custom-callback-demo rows="5" cols="45""&gt;&lt;/textarea&gt;</pre>
+            </div>
+            <div>
+              <h4>Javascript</h4>
+              <pre>
+$( "#custom-callback-demo" ).accessibleCharCount({
+  afterUpdate: function( remaining ) {
+    $(this).css( "background-color", "rgb(255,255," + ( remaining + 100 ) + ")" )
+  },
+  atMaxLength: function() {
+    alert( "The element with ID " + this.id + " has reached its maximum length. Further input will be discarded." )
+  }
+})</pre>
+            </div>
+          </div><!-- .col-md-8 -->
+        </div><!-- .row -->
+      </div><!-- .tab-pane -->
+
+      <div role="tabpanel" class="tab-pane" id="configuration" aria-labelledby="configurationtab">
+        <h2>Configuration</h2>
+        <pre>
+$.fn.accessibleCharCount.defaults = { maxLength: 160
+// The maximum length of the element
+// Will be overridden by actual maxlength if present
+                        , triggerPolite: 50
+// The number of remaining characters that triggers the polite announcement
+                        , triggerAssertive: 20
+// The number of remaining characters that triggers the assertive announcement
+                        , everyNth: 5
+// How frequently to speak the whole message, as opposed to just the number
+// Set to 0 to turn off this feature
+                        , wrapperElem: { idPrefix: 'accessibleCharCount-wrapper-'
+// Prefix to apply to the ID
+                                      , attrs: { 'class': 'accessibleCharCount-wrapperElem' }
+                                      , css: {}
+// Inline CSS
+                                      }
+                        , beforeNumberElem: { attrs: { 'class': 'accessibleCharCount-beforeNumberElem' }
+                                            , css: {}
+                                            , html: {}
+// Contents, by language and number
+// Defaults are provided in code
+                                            }
+                        , numberElem: { idPrefix: 'accessibleCharCount-number-'
+// Prefix to apply to the ID
+                                      , attrs: { 'class': 'accessibleCharCount-numberElem' }
+                                      , css: {}
+                                      }
+                        , afterNumberElem: { attrs: { 'class': 'accessibleCharCount-afterNumberElem' }
+                                          , css: {}
+                                          , html: {}
+                                          }
+                        , onStateChange: function () {}
+// Callback function when state changes e.g. from 'off' to 'polite'
+                        , atMaxLength: function () {}
+// Callback function when the maximum length is reached
+                        }
+        </pre>
+      </div><!-- .tab-pane -->
+
+      <div role="tabpanel" class="tab-pane" id="alt" aria-labelledby="alternatab">
+        <h2>Alternatives</h2>
+        <p>If you add the "maxlength" attribute, then standards-compliant browsers will discard any characters you attempt to enter beyond that point, but this doesn't help people using screenreaders or text-to-speech (TTS) software. Try it here:
+        </p>
+        <div class="row">
+          <div class="col-md-4">
+            <h4>Example</h4>
+            <label for="no-char-counter">No character counter</label><br>
+            <textarea id="no-char-counter" rows="5" cols="45" maxlength="160"></textarea>
+          </div><!-- .col-md-8 -->
+          <div class="col-md-8">
+            <h4>HTML</h4>
+            <pre>
+&lt;label for="no-char-counter"&gt;No character counter&lt;/label&gt;&lt;br&gt;
+&lt;textarea id="no-char-counter" rows="5" cols="45" maxlength="160"&gt;&lt;/textarea&gt;</pre>
+          </div><!-- .col-md-8 -->
+        </div><!-- .row -->
+
+        <h3>Simple character counter</h3>
+        <p>One solution is to add some Javascript to show a character counter. However, this can lead to quite chatty results. Try this out, and make sure your TTS/screenreader is on.</p>
+        <div class="row">
+          <div class="col-md-4">
+            <h4>Example</h4>
+            <label for="simple-char-counter">Simple character counter</label><br>
+            <textarea id="simple-char-counter" rows="5" cols="45" maxlength="160"></textarea>
+            <div id="chars-remaining" role="status">
+              <span id="count">160</span> characters remaining
+            </div>
+            <script>
+              var $messageArea = document.getElementById('simple-char-counter');
+              var $count = document.getElementById('count');
+              
+              $messageArea.onkeyup = function () {
+                var messageText = $messageArea.value;
+                var messageLength = messageText.length;
+                var remaining = 160 - messageLength;
+                $count.innerHTML = remaining;
+              };
+            </script>
+          </div><!-- .col-md-8 -->
+          <div class="col-md-8">
+            <div>
+              <h4>HTML</h4>
+              <pre>
+&lt;label for="simple-char-counter"&gt;Simple character counter&lt;/label&gt;&lt;br&gt;
+&lt;textarea id="simple-char-counter" rows="5" cols="45" maxlength="160"&gt;&lt;/textarea&gt;
+&lt;div id="chars-remaining" role="status"&gt;
+  &lt;span id="count"&gt;160&lt;/span&gt; characters remaining
+&lt;/div&gt;</pre>
+            </div>
+            <div>
+              <h4>Javascript</h4>
+              <pre>
+var $messageArea = document.getElementById('simple-char-counter');
+var $count = document.getElementById('count');
+
+$messageArea.onkeyup = function () {
+  var messageText = $messageArea.value;
+  var messageLength = messageText.length;
+  var remaining = 160 - messageLength;
+  $count.innerHTML = remaining;
+}</pre>
+              </div>
+            </div><!-- .col-md-8 -->
+          </div><!-- .row -->
+        </div><!-- .tab-pane -->
+
+      </div><!-- .tab-content -->
+    </div><!-- .container -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="accessible_character_counter.js"></script>
+    <script>
+      $( function(){
+        $( "#basic-demo" ).accessibleCharCount()
+        $( "#maxlength-demo" ).accessibleCharCount()
+        $( "#input-field-demo" ).accessibleCharCount()
+
+        $( "#properties-demo" ).accessibleCharCount({
+          maxLength: 30,
+          triggerPolite: 10,
+          triggerAssertive: 5,
+          everyNth: 0,
+          beforeNumberElem: {
+            html: { 'en': [ 'You have ' ]
+                  , 'ru': [ 'Осталось ' ]
+                  }
+          },
+          afterNumberElem: {
+            html: { 'ru': [ ' символов'
+                          , ' символ'
+                          , ' символа'
+                          , ' символа'
+                          , ' символа'
+                          , ' символов'
+                          ]
+                  }
+          }
+        })
+
+        var triggerPolite = 50
+        var triggerAssertive = 10
+        var politeFactor = 255 / ( triggerPolite - triggerAssertive )
+        var assertiveFactor = 255 / triggerAssertive
+        $( "#custom-callback-demo" ).accessibleCharCount({
+          triggerPolite,
+          triggerAssertive,
+          afterUpdate: function( remaining, status ) {
+            switch(status) {
+              case 'off':
+                $(this).css( "background-color", "rgb(255,255,255)" )
+                break
+              case 'polite':
+                $(this).css( "background-color", "rgb(255,255," + (( remaining - assertiveLength ) * politeFactor ) + ")" )
+                break
+              case 'assertive':
+                $(this).css( "background-color", "rgb(255," + ( remaining * assertiveFactor ) + ",0)" )
+            }
+          },
+          atMaxLength: function() {
+            alert( "This " + this.nodeName.toLowerCase() + " has reached its maximum length. Further input will be discarded." )
+          }
+        })
+
+      });
+    </script>
+  </body>
+</html>
